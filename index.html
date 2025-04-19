@@ -267,30 +267,33 @@
         <p>I'm always open to new ideas, projects, and learning opportunities. Feel free to reach out via email or connect on social media.</p>
       </div>
 
-      <div class="contact-form-container"> <form id="contact-form" class="contact-form" name="contact" method="POST" data-netlify="true">
-           <input type="hidden" name="form-name" value="contact">
-          <div class="form-group">
-            <label for="name">Mihir Mohite</label>
-            <input type="text" id="name" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-          <div class="form-group">
-            <label for="subject">Subject</label>
-            <input type="text" id="subject" name="subject" required>
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-          </div>
-          <button type="submit" class="submit-button">
-            <i class="fas fa-paper-plane"></i> Send Message
-          </button>
-        </form>
-      </div>
-
+      <div class="contact-form-container">
+  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you.html" class="contact-form">
+    <input type="hidden" name="form-name" value="contact" />
+    <p class="hidden">
+      <label>Don’t fill this out: <input name="bot-field" /></label>
+    </p>
+    <div class="form-group">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required />
+    </div>
+    <div class="form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required />
+    </div>
+    <div class="form-group">
+      <label for="subject">Subject</label>
+      <input type="text" id="subject" name="subject" required />
+    </div>
+    <div class="form-group">
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+    </div>
+    <button type="submit" class="submit-button">
+      <i class="fas fa-paper-plane"></i> Send Message
+    </button>
+  </form>
+</div>
       <div class="contact-links">
         <div class="contact-item">
           <i class="fas fa-envelope"></i>
