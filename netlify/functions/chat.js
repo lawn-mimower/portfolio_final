@@ -98,7 +98,7 @@ ${text}
 
     // 5) Pick your model
     const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash-lite'   // or your chosen variant
+      model: 'gemini-2.5-flash-lite'   // or your chosen variant
     });
 
     // 6) CORRECT generateContent call: wrap prompt in an array :contentReference[oaicite:0]{index=0}

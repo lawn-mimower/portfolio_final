@@ -250,15 +250,49 @@ button {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97');
-    background-size: cover;
-    background-position: center;
+    background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483, #1a1a2e);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
     color: #ffffff;
     padding: 0 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(100, 181, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 99, 71, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+    animation: floatingCircles 20s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes floatingCircles {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(30px, -30px); }
+    66% { transform: translate(-20px, 20px); }
 }
 
 .hero-content {
     max-width: 800px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-decoration {
+    position: relative;
+    z-index: 1;
 }
 
 .hero-content h1 {
@@ -318,6 +352,62 @@ button {
 
 .about-text {
     flex: 2;
+}
+
+/* Achievements Section */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.achievement-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 10px var(--card-shadow);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.achievement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px var(--card-shadow);
+}
+
+.achievement-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+}
+
+.achievement-card h3 {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.achievement-card h4 {
+    color: var(--accent-color);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.achievement-card p {
+    color: var(--text-color);
+    opacity: 0.8;
+    font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 /* Experience Section */
@@ -490,6 +580,86 @@ button {
     transform: translateY(-2px);
 }
 
+/* Resume Section */
+.resume-section {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.resume-content {
+    flex: 1;
+}
+
+.resume-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.resume-preview {
+    flex: 1;
+}
+
+.resume-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: 0 8px 30px var(--card-shadow);
+    border: 2px solid var(--border-color);
+}
+
+.resume-header {
+    text-align: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 1.5rem;
+}
+
+.resume-header i {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.resume-header h3 {
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.resume-header p {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+}
+
+.resume-highlights {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.highlight-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background-color: var(--secondary-bg);
+    border-radius: var(--border-radius);
+}
+
+.highlight-item i {
+    color: var(--accent-color);
+    font-size: 1.25rem;
+}
+
+.highlight-item span {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
 /* Contact Section */
 .contact-content {
     max-width: 800px;
@@ -621,6 +791,80 @@ footer {
     color: white;
     font-size: 1.2rem;
     cursor: pointer;
+}
+
+/* Suggested Questions */
+.suggested-questions {
+    padding: 1rem;
+    background-color: var(--secondary-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.suggestions-title {
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.suggestion-btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.suggestion-btn:hover {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    transform: translateX(5px);
+}
+
+.suggestion-btn:last-child {
+    margin-bottom: 0;
+}
+
+/* Chat Controls */
+.chat-controls {
+    padding: 0.5rem 1rem;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+}
+
+.clear-chat-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    opacity: 0.6;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--border-radius);
+    transition: all var(--transition-speed);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.clear-chat-btn:hover {
+    opacity: 1;
+    background-color: var(--secondary-bg);
+}
+
+.clear-chat-btn i {
+    font-size: 0.9rem;
 }
 
 .chat-messages {
@@ -763,9 +1007,27 @@ footer {
     h1 {
         font-size: 2.5rem;
     }
-    
+
     h2 {
         font-size: 1.75rem;
+    }
+
+    /* Achievements responsive */
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Resume section responsive */
+    .resume-section {
+        flex-direction: column;
+    }
+
+    .resume-buttons {
+        flex-direction: column;
+    }
+
+    .resume-highlights {
+        grid-template-columns: 1fr;
     }
     
     .nav-links {
