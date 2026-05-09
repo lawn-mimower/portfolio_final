@@ -1,0 +1,180 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Newsreader:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* Force single-column wide cards for type-fidelity */
+  #claude-content { padding: 1.5rem 2rem 3rem; }
+  .cards { grid-template-columns: 1fr !important; max-width: 980px; margin: 0 auto; gap: 1.25rem; }
+  .card { overflow: hidden; }
+  .card-image { aspect-ratio: auto !important; min-height: 520px; padding: 0 !important; align-items: stretch !important; justify-content: stretch !important; display: block !important; }
+
+  /* Shared mockup chrome */
+  .mock { width: 100%; height: 100%; min-height: 520px; padding: 36px 44px; position: relative; overflow: hidden; }
+  .mock .nav { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+  .mock h1.name { margin: 0; }
+  .mock .body { font-size: 14px; line-height: 1.55; max-width: 60ch; }
+  .mock .proj { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+
+  /* ============ A. ENGINEERING LOG ============ */
+  .mock-a { background: #0b0b0d; color: #e6e6e3; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 13px; }
+  .mock-a .nav { color: #6e6e6e; border-bottom: 1px solid #2a2a2c; padding-bottom: 10px; }
+  .mock-a .nav .right span { margin-left: 18px; }
+  .mock-a .accent { color: #ffb547; }
+  .mock-a .muted { color: #7a7a7a; }
+  .mock-a .ascii { color: #2e2e30; white-space: pre; line-height: 1.1; margin: 22px 0 14px; font-size: 11px; }
+  .mock-a h1.name { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 26px; letter-spacing: -0.5px; margin: 6px 0; }
+  .mock-a h1.name::before { content: '> '; color: #ffb547; }
+  .mock-a .role { color: #a8a8a8; margin-bottom: 22px; }
+  .mock-a .section-h { color: #ffb547; margin: 18px 0 8px; font-size: 12px; }
+  .mock-a .body { color: #d2d2cf; }
+  .mock-a .body em { color: #ffb547; font-style: normal; }
+  .mock-a .pipeline { color: #b0b0ad; font-size: 12px; margin-top: 10px; }
+  .mock-a .kv { display: grid; grid-template-columns: 110px 1fr; gap: 4px 14px; margin-top: 14px; font-size: 12px; }
+  .mock-a .kv b { color: #ffb547; font-weight: 500; }
+
+  /* ============ B. EDITORIAL / PAPER ============ */
+  .mock-b { background: #f3ecdd; color: #1a140e; font-family: 'Inter', sans-serif; font-size: 14px; padding: 44px 56px; }
+  .mock-b .nav { color: #5a4a36; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.2em; font-size: 10px; border-bottom: 1px solid #1a140e33; padding-bottom: 14px; }
+  .mock-b .smallcaps { font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 0.18em; font-size: 11px; color: #6b5a44; margin: 28px 0 6px; }
+  .mock-b h1.name { font-family: 'Newsreader', serif; font-weight: 500; font-size: 76px; line-height: 0.95; letter-spacing: -2px; margin: 8px 0 4px; }
+  .mock-b h1.name em { font-style: italic; color: #8a2a2a; font-weight: 500; }
+  .mock-b .lede { font-family: 'Newsreader', serif; font-size: 22px; line-height: 1.35; max-width: 24ch; color: #2a2218; font-style: italic; font-weight: 400; margin: 8px 0 20px; }
+  .mock-b .columns { display: grid; grid-template-columns: 1.6fr 1fr; gap: 32px; margin-top: 18px; }
+  .mock-b .col-main { font-family: 'Newsreader', serif; font-size: 16px; line-height: 1.6; }
+  .mock-b .col-main .dropcap::first-letter { font-family: 'Newsreader', serif; font-size: 56px; float: left; line-height: 0.85; padding: 6px 8px 0 0; font-weight: 500; color: #8a2a2a; }
+  .mock-b .col-main sup { color: #8a2a2a; font-size: 11px; }
+  .mock-b .col-marg { font-family: 'Newsreader', serif; font-style: italic; font-size: 13px; color: #5a4a36; line-height: 1.5; border-left: 1px solid #1a140e22; padding-left: 14px; }
+  .mock-b .col-marg .ref { color: #8a2a2a; font-style: normal; font-weight: 500; margin-right: 4px; }
+
+  /* ============ C. BLUEPRINT / SPEC SHEET ============ */
+  .mock-c { background: #f6f4ee; color: #18181b; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px;
+    background-image: radial-gradient(circle, #c9c5b8 0.7px, transparent 0.7px);
+    background-size: 14px 14px;
+    background-position: 0 0;
+    padding: 0;
+  }
+  .mock-c .frame { padding: 32px 40px; height: 100%; min-height: 520px; position: relative; }
+  .mock-c .frame::before, .mock-c .frame::after { content: ''; position: absolute; background: #1d4eb0; }
+  .mock-c .frame::before { top: 28px; left: 0; right: 0; height: 1px; opacity: 0.3; }
+  .mock-c .frame::after { bottom: 28px; left: 0; right: 0; height: 1px; opacity: 0.3; }
+  .mock-c .nav { font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: #4a4a52; }
+  .mock-c .nav .right span { margin-left: 14px; }
+  .mock-c .nav .right span.cur { color: #1d4eb0; border-bottom: 1px solid #1d4eb0; padding-bottom: 1px; }
+  .mock-c .label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #1d4eb0; margin-top: 36px; }
+  .mock-c .label .num { color: #18181b; margin-right: 8px; }
+  .mock-c h1.name { font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 42px; line-height: 1.05; letter-spacing: -1px; margin: 8px 0 4px; }
+  .mock-c .role { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #4a4a52; margin-bottom: 18px; }
+  .mock-c hr.hair { border: 0; border-top: 1px solid #18181b22; margin: 18px 0 14px; }
+  .mock-c .specs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+  .mock-c .specs .cell { border-top: 1px solid #18181b33; padding-top: 6px; }
+  .mock-c .specs .cell .k { color: #4a4a52; text-transform: uppercase; letter-spacing: 0.12em; font-size: 9.5px; }
+  .mock-c .specs .cell .v { color: #18181b; margin-top: 2px; font-size: 12px; }
+  .mock-c .specs .cell .v b { color: #1d4eb0; font-weight: 500; }
+  .mock-c .body { margin-top: 22px; max-width: 64ch; font-size: 14px; line-height: 1.55; }
+  .mock-c .body b { font-weight: 500; }
+  .mock-c .corner { position: absolute; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #1d4eb0; text-transform: uppercase; letter-spacing: 0.2em; }
+  .mock-c .corner.tr { top: 8px; right: 40px; }
+  .mock-c .corner.bl { bottom: 8px; left: 40px; }
+  .mock-c .corner.br { bottom: 8px; right: 40px; }
+</style>
+
+<h2 style="margin-bottom:0.25rem">Three visual worlds — pick the closest one.</h2>
+<p class="subtitle" style="margin-bottom:1.25rem">Same content (your name + a BeyondBot snippet) in three completely different registers. Type, color, density, mood. Click one. None of these are the final design — they're tonal anchors we'll refine together.</p>
+
+<div class="cards">
+
+  <!-- A. ENGINEERING LOG -->
+  <div class="card" data-choice="engineering-log" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock mock-a">
+        <div class="nav">
+          <span>~/mihir/portfolio &nbsp;&nbsp;<span class="accent">main</span></span>
+          <span class="right"><span>about</span><span>work</span><span>writing</span><span>contact</span></span>
+        </div>
+        <pre class="ascii">┌─────────────────────────────────────────────────────────────────────────────┐
+│  applied ml engineer · pune, in · last commit 18m ago                       │
+└─────────────────────────────────────────────────────────────────────────────┘</pre>
+        <h1 class="name">mihir mohite</h1>
+        <div class="role">applied ml engineer · b.tech ai/ml @ mit-wpu · president, codec</div>
+        <div class="section-h">// now</div>
+        <div class="body">building a legal-compliance rag system at <em>beyondbot</em> over a 1,210-page indian-law corpus. <em>hybrid retrieval reached 0.77 ragas vs 0.51 naive baseline</em> on a 315-query harness.</div>
+        <div class="kv">
+          <span class="muted">pipeline</span><span>mistral ocr → lightrag → agno (gemini 3 flash, 4 tools) → fastapi sse</span>
+          <span class="muted">stack</span><span>python · c++ · postgres · neo4j · aws lambda</span>
+          <span class="muted">writing</span><span>3 posts on retrieval evaluation <span class="accent">→</span></span>
+          <span class="muted">contact</span><span>mihir.moe@gmail.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Engineering log</h3>
+      <p>Monospace-first. Reads like documentation or a `git log`. Honest, dense, no decoration. Vibe: "this person thinks in systems and writes them down." Lowest risk of feeling vibe-coded.</p>
+    </div>
+  </div>
+
+  <!-- B. EDITORIAL / PAPER -->
+  <div class="card" data-choice="editorial" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock mock-b">
+        <div class="nav">
+          <span>Mihir Mohite — Index</span>
+          <span>Issue 01 · Apr 2026</span>
+        </div>
+        <div class="smallcoaps smallcaps">Now</div>
+        <h1 class="name">Mihir <em>Mohite</em></h1>
+        <p class="lede">Applied machine learning. Retrieval systems, agentic pipelines, the occasional rover.</p>
+        <div class="columns">
+          <div class="col-main">
+            <p class="dropcap">At BeyondBot I'm building a legal-compliance RAG system over a 1,210-page corpus of Indian industrial, manufacturing and environmental law<sup>1</sup>. The pipeline routes through Mistral OCR, a custom regex layer, LightRAG's hybrid index, and an Agno agent on Gemini 3 Flash<sup>2</sup>.</p>
+          </div>
+          <div class="col-marg">
+            <p><span class="ref">[1]</span> 315-query RAGAS harness. Hybrid mode: 0.77. Naive baseline: 0.51.</p>
+            <p style="margin-top:10px"><span class="ref">[2]</span> SSE streaming over FastAPI; PDF.js viewer with citation badges on the front end.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Editorial / paper</h3>
+      <p>Serif display + sans body, drop caps, marginalia, footnote refs. Reads like a published essay or research note. Vibe: "I write papers about what I build." Calm, warm, deeply un-templatey.</p>
+    </div>
+  </div>
+
+  <!-- C. BLUEPRINT / SPEC SHEET -->
+  <div class="card" data-choice="blueprint" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock mock-c">
+        <div class="frame">
+          <span class="corner tr">DRAWING&nbsp;&nbsp;01 / 06</span>
+          <span class="corner bl">REV&nbsp;&nbsp;2026.04</span>
+          <span class="corner br">MIHIR&nbsp;MOHITE</span>
+          <div class="nav">
+            <span>MIHIR MOHITE · INDEX</span>
+            <span class="right"><span class="cur">00 NOW</span><span>01 WORK</span><span>02 PROJECTS</span><span>03 CONTACT</span></span>
+          </div>
+          <div class="label"><span class="num">00</span>NOW</div>
+          <h1 class="name">Mihir Mohite.</h1>
+          <div class="role">Applied ML Engineer · MIT-WPU · President, CoDeC</div>
+          <hr class="hair">
+          <div class="specs">
+            <div class="cell"><div class="k">Role</div><div class="v">ML Intern, <b>BeyondBot</b></div></div>
+            <div class="cell"><div class="k">Stack</div><div class="v">Python · C++ · PG · Neo4j</div></div>
+            <div class="cell"><div class="k">RAGAS Δ</div><div class="v"><b>+0.26</b> hybrid vs naive</div></div>
+            <div class="cell"><div class="k">Corpus</div><div class="v">1,210 pp · IN law</div></div>
+          </div>
+          <div class="body">
+            Building a <b>legal-compliance RAG</b> system at BeyondBot. Pipeline: Mistral OCR → custom regex router → LightRAG hybrid (KG + vector) → Agno agent (Gemini 3 Flash, 4 tools) → FastAPI SSE. Benchmarked across five retrieval modes on a 315-query harness — hybrid mode reached <b>0.77 RAGAS</b> against <b>0.51</b> for the naive baseline.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Blueprint / spec sheet</h3>
+      <p>Sans + mono. Numbered sections, hairline rules, dot-grid, drawing-corner annotations. Looks like a technical drawing or datasheet, not a marketing page. Vibe: "this is a spec." Quietly distinctive.</p>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;margin-top:1.5rem;font-size:0.85rem;color:var(--text-secondary)">Click one. Or tell me in terminal which is closest, what bothers you about it, and what you'd pull from the others.</p>
