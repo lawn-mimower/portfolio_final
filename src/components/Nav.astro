@@ -1,0 +1,24 @@
+---
+const items = [
+  { num: '00', name: 'NOW',         href: '/#now' },
+  { num: '01', name: 'WORK',        href: '/#work' },
+  { num: '02', name: 'PROJECTS',    href: '/#projects' },
+  { num: '03', name: 'LEADERSHIP',  href: '/#leadership' },
+  { num: '04', name: 'EDUCATION',   href: '/#education' },
+  { num: '05', name: 'SKILLS',      href: '/#skills' },
+  { num: '06', name: 'CONTACT',     href: '/#contact' },
+];
+
+interface Props { current?: string; }   // section name (e.g. "NOW") to mark
+const { current } = Astro.props;
+---
+<div class="nav">
+  <span>MIHIR MOHITE — INDEX</span>
+  <div class="right">
+    {items.map((item) => (
+      current === item.name
+        ? <span class="cur">{item.num} {item.name}</span>
+        : <a href={item.href}>{item.num} {item.name}</a>
+    ))}
+  </div>
+</div>

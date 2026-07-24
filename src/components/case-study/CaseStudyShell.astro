@@ -1,0 +1,41 @@
+---
+import Frame from '../Frame.astro';
+import Nav from '../Nav.astro';
+import SectionLabel from '../SectionLabel.astro';
+import TLDR from './TLDR.astro';
+import Hairline from '../Hairline.astro';
+
+interface Props {
+  num: string;
+  section: string;       // e.g. "WORK"
+  drawing: string;       // "01 / 02"
+  context: string;       // "BEYONDBOT — IN-PROGRESS"
+  title: string;
+  role?: string;
+  tldr: Array<{ k: string; v: string }>;
+  backHref?: string;
+  backLabel?: string;
+}
+const {
+  num, section, drawing, context, title, role,
+  tldr, backHref = '/', backLabel = '← back to index',
+} = Astro.props;
+
+// Match the case study's accent to its section hue on the home page.
+const sectionAccent =
+  section === 'PROJECTS' ? 'var(--accent-2)' :
+  section === 'LEADERSHIP' ? 'var(--accent-3)' :
+  undefined;
+---
+<Frame drawing={drawing} context={context} accent={sectionAccent}>
+  <Nav current={section} />
+  <a href={backHref} class="back-link">{backLabel}</a>
+  <SectionLabel num={num} name={section} />
+  <h1 class="display">{title}.</h1>
+  {role && <p class="role">{role}</p>}
+  <TLDR cells={tldr} />
+  <Hairline />
+  <article class="case-body">
+    <slot />
+  </article>
+</Frame>

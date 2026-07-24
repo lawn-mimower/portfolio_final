@@ -1,0 +1,140 @@
+---
+import Base from '../layouts/Base.astro';
+import Frame from '../components/Frame.astro';
+import Nav from '../components/Nav.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import SpecGrid from '../components/SpecGrid.astro';
+import SpecCell from '../components/SpecCell.astro';
+import Hairline from '../components/Hairline.astro';
+import TerminalCursor from '../components/TerminalCursor.astro';
+import Pipeline from '../components/Pipeline.astro';
+import EntryRow from '../components/EntryRow.astro';
+import ModeToggle from '../components/ModeToggle.astro';
+import GithubIcon from '../components/icons/GithubIcon.astro';
+import LinkedinIcon from '../components/icons/LinkedinIcon.astro';
+import EnvelopeIcon from '../components/icons/EnvelopeIcon.astro';
+import {
+  profile, nowSpecs, nowParagraph, nowPipeline, recognitions,
+  work, projects, earlier, leadership, education, skills,
+} from '../content/site';
+---
+<Base title={`${profile.name} — applied ml engineer`}>
+  <Frame drawing="00 / 06">
+    <Nav current="NOW" />
+
+    <section id="now">
+      <SectionLabel num="00" name="NOW" draw />
+      <div class="hero">
+        <div class="hero-copy">
+          <h1 class="display">{profile.name}.</h1>
+          <p class="role">{profile.role}<TerminalCursor /></p>
+
+          <SpecGrid cols={2}>
+            {nowSpecs.map((s) => (
+              <SpecCell k={s.k}><span set:html={s.v} /></SpecCell>
+            ))}
+          </SpecGrid>
+
+          <p class="body-text" style="margin-top: 1.25rem" set:html={nowParagraph} />
+
+          <Pipeline steps={nowPipeline} />
+        </div>
+
+        <figure class="figure">
+          <img src="/media/portrait.jpeg" width="640" height="640"
+               alt="Mihir Mohite presenting at CoDeC, MIT-WPU" loading="eager" />
+          <figcaption>presenting at codec · mit-wpu · 2025</figcaption>
+        </figure>
+      </div>
+
+      <Hairline draw />
+      <p class="recog" set:html={recognitions} />
+    </section>
+
+    <Hairline draw />
+    <section id="work">
+      <SectionLabel num="01" name="WORK" draw />
+      <h2 class="display" style="font-size: 1.6rem; margin-bottom: 0.5rem">internships</h2>
+      {work.map((w) => (
+        <EntryRow when={w.when} title={w.title} org={w.org} href={w.href}>
+          <span set:html={w.lede} />
+        </EntryRow>
+      ))}
+    </section>
+
+    <Hairline draw />
+    <section id="projects" style="--accent: var(--accent-2)">
+      <SectionLabel num="02" name="PROJECTS" draw />
+      <h2 class="display" style="font-size: 1.6rem; margin-bottom: 0.5rem">selected work</h2>
+      {projects.map((p) => (
+        <EntryRow when={p.when} title={p.title} org={p.org} href={p.href}>
+          <span set:html={p.lede} />
+        </EntryRow>
+      ))}
+
+      <SectionLabel num="02.5" name="EARLIER" draw />
+      <ul class="earlier">
+        {earlier.map((e) => (
+          <li>
+            <span class="y">{e.year}</span>
+            <span><b>{e.title}</b> · <span class="blurb">{e.blurb}</span></span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <Hairline draw />
+    <section id="leadership" style="--accent: var(--accent-3)">
+      <SectionLabel num="03" name="LEADERSHIP" draw />
+      <h2 class="display" style="font-size: 1.6rem; margin-bottom: 0.5rem">codec</h2>
+      {leadership.map((l) => (
+        <EntryRow when={l.when} title={l.title} org={l.org} href={l.href}>
+          <span set:html={l.lede} />
+        </EntryRow>
+      ))}
+    </section>
+
+    <Hairline draw />
+    <section id="education" style="--accent: var(--accent-2)">
+      <SectionLabel num="04" name="EDUCATION" draw />
+      <EntryRow when={education.when} title={education.title} org={education.org}>
+        <span set:html={education.lede} />
+      </EntryRow>
+    </section>
+
+    <Hairline draw />
+    <section id="skills" style="--accent: var(--accent-3)">
+      <SectionLabel num="05" name="SKILLS" draw />
+      {skills.map((g) => (
+        <div class="skills-group">
+          <div class="k">{g.k}</div>
+          <div class="v">{g.v.map((s) => <span>{s}</span>)}</div>
+        </div>
+      ))}
+    </section>
+
+    <Hairline draw />
+    <section id="contact">
+      <SectionLabel num="06" name="CONTACT" draw />
+      <p class="body-text">Open to internships, research collaborations, and conversations about retrieval systems. Email is fastest.</p>
+
+      <ul class="contact-list">
+        <li><a href={`mailto:${profile.email}`}><EnvelopeIcon /> {profile.email}</a></li>
+        <li><a href={profile.github} target="_blank" rel="noopener"><GithubIcon /> github.com/lawn-mimower</a></li>
+        <li><a href={profile.linkedin} target="_blank" rel="noopener"><LinkedinIcon /> linkedin.com/in/mihir-mohite</a></li>
+      </ul>
+
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="form">
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="hp"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+        <div><label for="name">name</label><input id="name" name="name" type="text" required /></div>
+        <div><label for="email">email</label><input id="email" name="email" type="email" required /></div>
+        <div><label for="subject">subject</label><input id="subject" name="subject" type="text" required /></div>
+        <div><label for="message">message</label><textarea id="message" name="message" rows="5" required /></div>
+        <button type="submit">Send →</button>
+      </form>
+
+      <ModeToggle />
+    </section>
+  </Frame>
+</Base>

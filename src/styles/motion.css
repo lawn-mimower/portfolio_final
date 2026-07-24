@@ -1,0 +1,35 @@
+/* Blinking caret */
+@keyframes caret-blink {
+  50% { opacity: 0; }
+}
+.caret {
+  display: inline-block;
+  width: 0.5ch;
+  height: 1em;
+  background: var(--accent);
+  margin-left: 0.25ch;
+  vertical-align: text-bottom;
+  animation: caret-blink 1s steps(2) infinite;
+}
+
+/* Hairline draw-on-scroll: hairline starts at 0% width and grows to 100% */
+.hairline.draw {
+  width: 100%;
+  background: var(--line);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 250ms ease-out;
+}
+.hairline.draw.is-in { transform: scaleX(1); }
+
+/* Section-label fade */
+.section-label.draw {
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+.section-label.draw.is-in { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .caret { animation: none; opacity: 1; }
+  .hairline.draw, .section-label.draw { transform: none; opacity: 1; transition: none; }
+}

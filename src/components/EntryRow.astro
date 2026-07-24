@@ -1,0 +1,24 @@
+---
+interface Props {
+  when: string;
+  title: string;
+  org?: string;
+  href?: string;     // if absent, no "read →" arrow
+  readLabel?: string;
+}
+const { when, title, org, href, readLabel = 'read' } = Astro.props;
+const Wrap = href ? 'a' : 'div';
+---
+<Wrap class="entry" href={href}>
+  <div class="when">{when}</div>
+  <div class="what">
+    <h3>{title}</h3>
+    {org && <div class="org">{org}</div>}
+    <p><slot /></p>
+  </div>
+  {href ? (
+    <div class="read">{readLabel} <span class="arrow">→</span></div>
+  ) : (
+    <div class="read" aria-hidden="true">&nbsp;</div>
+  )}
+</Wrap>

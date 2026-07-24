@@ -1,0 +1,10 @@
+---
+interface Props {
+  k: string;   // "Role"
+}
+const { k } = Astro.props;
+---
+<div class="cell">
+  <div class="k">{k}</div>
+  <div class="v"><slot /></div>
+</div>

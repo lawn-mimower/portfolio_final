@@ -1,0 +1,13 @@
+---
+interface Props {
+  rev?: string;
+  drawing?: string;
+  domain?: string;
+  context?: string;
+  accent?: string;   // optional CSS value to override --accent for this frame's scope
+}
+const { accent } = Astro.props;
+---
+<section class="frame" style={accent ? `--accent: ${accent}` : undefined}>
+  <slot />
+</section>

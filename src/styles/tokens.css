@@ -1,0 +1,89 @@
+:root {
+  /* Type families (set by @fontsource imports in Base.astro) */
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Type scale */
+  --fs-display:    2.6rem;
+  --fs-display-sm: 2rem;
+  --fs-h2:         1.05rem;
+  --fs-body:       0.95rem;
+  --fs-mono-data:  0.78rem;
+  --fs-mono-label: 0.66rem;
+  --fs-mono-corner: 0.625rem;
+
+  --lh-display: 1.0;
+  --lh-body:    1.6;
+
+  --ls-display:  -0.04em;
+  --ls-label:    0.22em;
+  --ls-data:     0.02em;
+
+  /* Spacing scale */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-8: 3rem;
+  --sp-10: 4rem;
+
+  /* Layout */
+  --content-max: 1280px;
+  --frame-pad-x: clamp(1.25rem, 5vw, 4rem);
+  --frame-pad-y: 1.75rem;
+
+  /* Single consistent hairline used for every structural rule.
+     Resolves against the active theme's --rule at use time. */
+  --line: color-mix(in srgb, var(--rule) 28%, transparent);
+}
+
+/* Default (light) */
+:root,
+:root[data-theme='light'] {
+  --bg:        #f6f2e6;
+  --ink:       #18181b;
+  --mid:       #5a5a60;
+  --muted:     #7a7a82;
+  --rule:      #18181b;
+  --rule-a:    0.32;
+  --dot:       #c9c5b8;
+  --accent:    #b54a00;   /* burnt orange */
+  --accent-2:  #a8452a;   /* terracotta */
+  --accent-3:  #8a6a12;   /* ochre */
+  --code-bg:   #efe9d9;
+  --selection-bg: rgba(181, 74, 0, 0.25);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg:        #0c0c0e;
+    --ink:       #f0ece2;
+    --mid:       #9a958a;
+    --muted:     #6a655c;
+    --rule:      #f0ece2;
+    --rule-a:    0.32;
+    --dot:       #1d1d1f;
+    --accent:    #ffb547;   /* amber */
+    --accent-2:  #ff8a5c;   /* coral / terracotta */
+    --accent-3:  #e9c85f;   /* gold */
+    --code-bg:   #1a1a1d;
+    --selection-bg: rgba(255, 181, 71, 0.25);
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg:        #0c0c0e;
+  --ink:       #f0ece2;
+  --mid:       #9a958a;
+  --muted:     #6a655c;
+  --rule:      #f0ece2;
+  --rule-a:    0.32;
+  --dot:       #1d1d1f;
+  --accent:    #ffb547;   /* amber */
+  --accent-2:  #ff8a5c;   /* coral / terracotta */
+  --accent-3:  #e9c85f;   /* gold */
+  --code-bg:   #1a1a1d;
+  --selection-bg: rgba(255, 181, 71, 0.25);
+}

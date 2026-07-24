@@ -1,0 +1,12 @@
+---
+import SpecGrid from '../SpecGrid.astro';
+import SpecCell from '../SpecCell.astro';
+
+interface Props {
+  cells: Array<{ k: string; v: string }>;
+}
+const { cells } = Astro.props;
+---
+<SpecGrid>
+  {cells.map((c) => <SpecCell k={c.k}><span set:html={c.v} /></SpecCell>)}
+</SpecGrid>

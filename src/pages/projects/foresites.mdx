@@ -1,0 +1,43 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: "ForeSites — Construction Site Management"
+description: "3-person pilot. NL-to-SQL agent on AWS Lambda + WhatsApp ingest service for snag reports."
+num: "02"
+section: "PROJECTS"
+drawing: "01 / 04"
+context: "FORESITES — PILOT"
+pageTitle: "ForeSites"
+role: "team of 3 · pilot stage with a Pune real-estate developer"
+tldr:
+  - { k: "Team",   v: "3 · me + 2 collaborators" }
+  - { k: "Status", v: "pilot · production with 1 customer" }
+  - { k: "Stack",  v: "AWS Lambda · Gemini · Postgres · Node" }
+  - { k: "Schema", v: "9 tables · per-session memory + ownership" }
+---
+
+## Problem
+
+Construction site managers in India report snags (defects, delays, materials issues) over WhatsApp — text, voice notes, photos. The data never makes it into a system of record, so progress reviews are reconstructed from screenshots. ForeSites is the system of record: a WhatsApp-first ingestion pipeline plus a dashboard that lets the developer query and assign across sites.
+
+<figure class="figure">
+  <img src="/media/foresites-arch.png" alt="ForeSites cloud architecture: WhatsApp Meta API to AWS Lambda to Node.js, with DynamoDB session context and an Agno agent on Gemini backed by a vector store." />
+  <figcaption>cloud architecture · whatsapp → lambda → agno agent</figcaption>
+</figure>
+
+## My contributions
+
+### NL-to-SQL agent (AWS Lambda · Gemini)
+
+Built a Python AWS Lambda agent (Gemini API) that performs streaming NL-to-SQL over a 9-table Postgres schema. Per-session memory is persisted across turns; session-ownership enforcement keeps each conversation scoped to a single project so cross-tenant leaks are impossible by construction.
+
+### WhatsApp ingestion service (Node · Express · S3 · Supabase)
+
+Built the ingestion service: WhatsApp Business API webhook → Express handler → S3 for media → Supabase (Postgres) for the structured snag record. Voice notes are transcribed, images are OCR'd, text snags are written directly. Each snag carries a project ID derived from the sender's project membership.
+
+### Dashboard + schema
+
+Redesigned the React dashboard frontend; authored the relational schema and the snag-assignment workflow (assignee, status, SLA, audit trail).
+
+## Status
+
+Pilot stage with a Pune real-estate developer. The platform is producing usable snag records and the agent answers project queries in production. Next: cost-aware routing for the agent and a structured snag-template layer above the freeform ingestion.

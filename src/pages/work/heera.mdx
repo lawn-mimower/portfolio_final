@@ -1,0 +1,34 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: "Heera — Address validation"
+description: "Scoring service combining Google Maps, fuzzy matching, and reverse-geocoded cosine similarity."
+num: "01"
+section: "WORK"
+drawing: "02 / 02"
+context: "HEERA — SHIPPED"
+pageTitle: "Heera"
+role: "software intern · jun 2025 — oct 2025 · pune"
+tldr:
+  - { k: "Records processed", v: "<b>~13,500</b>" }
+  - { k: "Components",        v: "Google Maps · fuzzy · reverse-geo cosine" }
+  - { k: "Output",             v: "score + components per record" }
+  - { k: "Status",             v: "shipped to production data pipeline" }
+---
+
+## Problem
+
+Existing internal datasets contained address strings of mixed quality — partial matches, transliteration variance, missing localities. The team needed a scoring service that validated each record and emitted a confidence score plus the component contributions, so downstream pipelines could threshold or route by confidence.
+
+## Approach
+
+Three signals, combined into a weighted score:
+
+1. **Google Maps API match** — query the address; compare returned formatted address against input.
+2. **Fuzzy string match** — token sort + ratio over normalized strings to catch transliteration / spacing variance.
+3. **Reverse-geocoded cosine similarity** — geocode the address, reverse-geocode the resulting lat/lng, compare embeddings of the two textual addresses.
+
+The combined score and per-component breakdown were attached to each record. Approximately **13,500** records were processed during the engagement.
+
+## Notes
+
+This was a scoring service, not a multi-class classifier. The previous portfolio framing of "ML-based multi-class classification" was wrong and is corrected here.
