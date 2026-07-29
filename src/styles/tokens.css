@@ -1,0 +1,96 @@
+:root {
+  /* Type families */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Type scale */
+  --fs-display:    clamp(2.5rem, 5.5vw, 4rem);
+  --fs-display-sm: 2rem;
+  --fs-h2:         clamp(1.5rem, 3vw, 2.1rem);
+  --fs-h3:         1.15rem;
+  --fs-body:       1.02rem;
+  --fs-small:      0.9rem;
+  --fs-eyebrow:    0.72rem;
+  --fs-mono-data:  0.8rem;
+
+  --lh-display: 1.06;
+  --lh-body:    1.65;
+
+  --ls-tight:   -0.022em;
+  --ls-eyebrow:  0.14em;
+  --ls-data:     0.01em;
+
+  /* Spacing scale */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-8: 3rem;
+  --sp-10: 4rem;
+  --sp-12: 6rem;
+
+  /* Layout */
+  --content-max: 1120px;
+  --frame-pad-x: clamp(1.25rem, 5vw, 3rem);
+  --frame-pad-y: 0;
+
+  --radius:    14px;
+  --radius-sm: 9px;
+
+  --line: var(--border);
+  --rule: var(--border);
+}
+
+/* Default (light) */
+:root,
+:root[data-theme='light'] {
+  --bg:        #ffffff;
+  --surface:   #f7f8fa;
+  --surface-2: #f1f2f5;
+  --ink:       #0e0f12;
+  --mid:       #55585f;
+  --muted:     #8b8f98;
+  --border:    #e7e9ee;
+  --accent:    #4f46e5;
+  --accent-ink:#ffffff;
+  --accent-soft:#eef0fe;
+  --code-bg:   #f2f3f6;
+  --selection-bg: rgba(79, 70, 229, 0.16);
+  --shadow: 0 1px 2px rgba(16, 17, 22, 0.04), 0 8px 24px rgba(16, 17, 22, 0.06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg:        #0b0c0e;
+    --surface:   #141619;
+    --surface-2: #1a1d21;
+    --ink:       #f2f3f5;
+    --mid:       #a2a6ae;
+    --muted:     #6d727b;
+    --border:    #24272d;
+    --accent:    #818cf8;
+    --accent-ink:#0b0c0e;
+    --accent-soft:#1a1d2b;
+    --code-bg:   #16181c;
+    --selection-bg: rgba(129, 140, 248, 0.22);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px rgba(0, 0, 0, 0.4);
+  }
+}
+
+:root[data-theme='dark'] {
+  --bg:        #0b0c0e;
+  --surface:   #141619;
+  --surface-2: #1a1d21;
+  --ink:       #f2f3f5;
+  --mid:       #a2a6ae;
+  --muted:     #6d727b;
+  --border:    #24272d;
+  --accent:    #818cf8;
+  --accent-ink:#0b0c0e;
+  --accent-soft:#1a1d2b;
+  --code-bg:   #16181c;
+  --selection-bg: rgba(129, 140, 248, 0.22);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 28px rgba(0, 0, 0, 0.4);
+}

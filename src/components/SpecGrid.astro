@@ -1,0 +1,10 @@
+---
+interface Props {
+  cols?: number;
+}
+const { cols = 4 } = Astro.props;
+const styleAttr = cols !== 4 ? `grid-template-columns: repeat(${cols}, 1fr)` : undefined;
+---
+<div class="specs" style={styleAttr}>
+  <slot />
+</div>

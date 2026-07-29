@@ -1,0 +1,18 @@
+/* Scroll reveal — subtle, restrained (Clean Swiss) */
+[data-observe] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 480ms ease, transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-observe].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-observe] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

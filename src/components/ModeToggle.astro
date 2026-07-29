@@ -1,0 +1,38 @@
+---
+---
+<div class="mode-toggle" data-mode-toggle>
+  <span class="label">mode</span>
+  <button type="button" data-mode="system" aria-pressed="true">System</button>
+  <button type="button" data-mode="light" aria-pressed="false">Light</button>
+  <button type="button" data-mode="dark" aria-pressed="false">Dark</button>
+</div>
+
+<script>
+  import { applyTheme, currentTheme, withViewTransition } from '../lib/theme';
+
+  function syncButtons(root: HTMLElement) {
+    const t = currentTheme();
+    root.querySelectorAll<HTMLButtonElement>('button[data-mode]').forEach((b) => {
+      b.setAttribute('aria-pressed', String(b.dataset.mode === t));
+    });
+  }
+
+  function init(root: HTMLElement) {
+    syncButtons(root);
+    root.addEventListener('click', (ev) => {
+      const target = ev.target as HTMLElement;
+      const btn = target.closest<HTMLButtonElement>('button[data-mode]');
+      if (!btn) return;
+      const t = btn.dataset.mode as 'system' | 'light' | 'dark';
+      withViewTransition(() => {
+        applyTheme(t);
+        syncButtons(root);
+      });
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-mode-toggle]').forEach(init);
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-mode-toggle]').forEach(init);
+  });
+</script>

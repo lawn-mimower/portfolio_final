@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.superpowers/
+.env
+.env.local
+.DS_Store
+.playwright-mcp/
+
+# loose resume source drops at repo root (public/ copy is tracked)
+/*.pdf

@@ -1,0 +1,305 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  #claude-content { padding: 1.5rem 2rem 3rem; }
+  .cards { grid-template-columns: 1fr !important; max-width: 1040px; margin: 0 auto; gap: 1.5rem; }
+  .card { overflow: hidden; }
+  .card-image { aspect-ratio: auto !important; min-height: 680px; padding: 0 !important; align-items: stretch !important; justify-content: stretch !important; display: block !important; }
+
+  /* ============ Shared paint (LIGHT) ============ */
+  .mock {
+    --ink: #18181b;
+    --mid: #5a5a60;
+    --muted: #7a7a82;
+    --rule: #18181b;
+    --accent: #b54a00;
+    --dot: #c9c5b8;
+    --code-bg: #efe9d9;
+    background: #f6f2e6;
+    color: #18181b;
+    font-family: 'IBM Plex Sans', sans-serif;
+    width: 100%;
+    min-height: 680px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mock .frame {
+    background-image: radial-gradient(circle, var(--dot) 0.7px, transparent 0.7px);
+    background-size: 14px 14px;
+    height: 100%;
+    min-height: 680px;
+    padding: 28px 40px;
+    position: relative;
+  }
+  .mock .frame::before, .mock .frame::after { content: ''; position: absolute; left: 40px; right: 40px; height: 1px; background: var(--rule); opacity: 0.4; }
+  .mock .frame::before { top: 24px; }
+  .mock .frame::after { bottom: 24px; }
+  .corner { position: absolute; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.2em; }
+  .corner.tl { top: 8px; left: 40px; } .corner.tr { top: 8px; right: 40px; }
+  .corner.bl { bottom: 8px; left: 40px; } .corner.br { bottom: 8px; right: 40px; }
+
+  .mock .nav { display: flex; justify-content: space-between; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); padding-top: 4px; }
+  .mock .nav .right span { margin-left: 12px; }
+  .mock .nav .right span.cur { color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 1px; }
+  .mock .label { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--accent); }
+  .mock .label .num { color: var(--ink); margin-right: 8px; opacity: 0.4; }
+  .mock h1 { font-weight: 400; letter-spacing: -1px; color: var(--ink); margin: 6px 0 4px; }
+  .mock .role { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--mid); }
+  .mock .role .caret { display: inline-block; width: 8px; height: 13px; background: var(--accent); margin-left: 4px; transform: translateY(2px); animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .mock hr.hair { border: 0; border-top: 1px solid var(--rule); opacity: 0.32; margin: 16px 0; }
+  .mock .body { font-size: 13.5px; line-height: 1.55; color: var(--ink); max-width: 62ch; }
+  .mock .body code { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--accent); background: var(--code-bg); padding: 1px 5px; border-radius: 2px; }
+  .mock .body b { font-weight: 500; }
+  .mock .specs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; }
+  .mock .specs .cell { border-top: 1px solid var(--rule); padding-top: 6px; }
+  .mock .specs .cell .k { color: var(--mid); text-transform: uppercase; letter-spacing: 0.12em; font-size: 9px; }
+  .mock .specs .cell .v { color: var(--ink); margin-top: 3px; font-size: 11.5px; line-height: 1.3; }
+  .mock .specs .cell .v b { color: var(--accent); font-weight: 500; }
+  .mock .pipeline { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--mid); }
+  .mock .pipeline .arrow { color: var(--accent); margin: 0 4px; }
+  .mock .recog { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--mid); }
+  .mock .recog b { color: var(--accent); font-weight: 500; }
+
+  /* ============ A. INDEX CARD ============ */
+  .a-index { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 22px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; }
+  .a-index .row { display: grid; grid-template-columns: 50px 130px 1fr 60px; gap: 16px; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--rule); border-top-style: solid; }
+  .a-index .row:first-child { border-top: 0; padding-top: 0; }
+  .a-index .row:hover .num, .a-index .row:hover .arr { color: var(--accent); }
+  .a-index .num { color: var(--accent); font-weight: 500; }
+  .a-index .name { color: var(--ink); font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; font-size: 11.5px; }
+  .a-index .desc { color: var(--mid); font-size: 11.5px; }
+  .a-index .arr { text-align: right; color: var(--mid); }
+
+  /* ============ B. SCROLL ============ */
+  .b-section { margin-top: 26px; }
+  .b-section .head { display: flex; justify-content: space-between; align-items: baseline; }
+  .b-section .head .pageno { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--mid); }
+  .b-section .h2 { font-weight: 400; font-size: 22px; letter-spacing: -0.5px; margin: 4px 0 6px; }
+  .b-section .lede { font-size: 13.5px; color: var(--mid); max-width: 56ch; }
+  .b-entry { display: grid; grid-template-columns: 90px 1fr 80px; gap: 14px; padding: 10px 0; border-top: 1px solid var(--rule); border-top-color: var(--rule); align-items: baseline; }
+  .b-entry .when { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.1em; }
+  .b-entry .what h3 { margin: 0 0 2px; font-size: 14.5px; font-weight: 500; }
+  .b-entry .what .org { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--mid); margin-bottom: 4px; }
+  .b-entry .what p { font-size: 12.5px; color: var(--ink); margin: 0; max-width: 60ch; }
+  .b-entry .what p b { color: var(--accent); font-weight: 500; }
+  .b-entry .read { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--accent); text-align: right; text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* ============ C. TWO-COLUMN ============ */
+  .c-grid { display: grid; grid-template-columns: 240px 1fr; gap: 36px; margin-top: 18px; height: calc(100% - 80px); }
+  .c-rail { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink); border-right: 1px solid var(--rule); padding-right: 24px; }
+  .c-rail .who { font-family: 'IBM Plex Sans', sans-serif; font-size: 22px; font-weight: 400; letter-spacing: -0.5px; margin: 0; color: var(--ink); }
+  .c-rail .role { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--mid); margin: 4px 0 16px; }
+  .c-rail .role .caret { display: inline-block; width: 7px; height: 11px; background: var(--accent); margin-left: 3px; transform: translateY(2px); animation: blink 1s steps(2) infinite; }
+  .c-rail hr.hair { margin: 16px 0; }
+  .c-rail .idx { display: flex; flex-direction: column; gap: 7px; text-transform: uppercase; letter-spacing: 0.14em; font-size: 10.5px; }
+  .c-rail .idx a { color: var(--ink); text-decoration: none; display: flex; justify-content: space-between; }
+  .c-rail .idx a.cur { color: var(--accent); }
+  .c-rail .idx a.cur::before { content: '→ '; color: var(--accent); }
+  .c-rail .idx a span { color: var(--mid); }
+  .c-rail .meta { color: var(--mid); font-size: 10px; line-height: 1.5; margin-top: 18px; }
+  .c-rail .meta b { color: var(--ink); }
+  .c-rail .toggle { margin-top: 18px; display: flex; gap: 6px; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--mid); }
+  .c-rail .toggle .pill { padding: 3px 8px; border: 1px solid var(--rule); border-color: var(--rule); }
+  .c-rail .toggle .pill.on { background: var(--ink); color: #f6f2e6; border-color: var(--ink); }
+  .c-content h1 { font-size: 36px; }
+  .c-content .now-block { padding-top: 4px; }
+  .c-content .recent { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--rule); border-top-color: var(--rule); border-top-style: solid; opacity: 1; }
+  .c-content .recent::before { content: ''; }
+  .c-content .recent .col .lab { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--accent); margin-bottom: 6px; }
+  .c-content .recent .col h4 { margin: 0 0 4px; font-size: 14.5px; font-weight: 500; }
+  .c-content .recent .col .org { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: var(--mid); margin-bottom: 4px; }
+  .c-content .recent .col p { font-size: 12.5px; color: var(--ink); margin: 0; }
+</style>
+
+<h2 style="margin-bottom:0.4rem">Three home-page concepts — pick a layout strategy.</h2>
+<p class="subtitle" style="margin-bottom:1.25rem">All three use the locked direction (Plex Sans + Plex Mono, hairlines, dot-grid, drawing corners, amber accent, terminal cursor). They differ on <b>density</b>, <b>scroll behavior</b>, and <b>where navigation lives</b>. Click whichever feels right.</p>
+
+<div class="cards">
+
+  <!-- A. INDEX CARD -->
+  <div class="card" data-choice="index-card" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock">
+        <div class="frame">
+          <span class="corner tl">REV&nbsp;&nbsp;2026.05</span>
+          <span class="corner tr">DRAWING&nbsp;&nbsp;00 / 06</span>
+          <span class="corner bl">MIHIRMOHITE.IN</span>
+          <span class="corner br">PUNE,&nbsp;IN</span>
+          <div class="nav">
+            <span>MIHIR MOHITE — INDEX</span>
+            <span class="right"><span class="cur">00 NOW</span><span>01 WORK</span><span>02 PROJECTS</span><span>03 LEADERSHIP</span><span>04 WRITING</span><span>05 CONTACT</span></span>
+          </div>
+          <div class="label" style="margin-top:24px"><span class="num">00</span>NOW</div>
+          <h1 style="font-size:42px">Mihir Mohite.</h1>
+          <div class="role">applied ml engineer · b.tech ai/ml @ mit-wpu · president, codec<span class="caret"></span></div>
+          <hr class="hair">
+          <div class="specs">
+            <div class="cell"><div class="k">Role</div><div class="v">ML Intern · <b>BeyondBot</b></div></div>
+            <div class="cell"><div class="k">Working langs</div><div class="v">Python · C++</div></div>
+            <div class="cell"><div class="k">RAGAS Δ</div><div class="v"><b>+0.26</b> hybrid v naive</div></div>
+            <div class="cell"><div class="k">Corpus</div><div class="v">1,210pp · IN law</div></div>
+          </div>
+          <div class="a-index">
+            <div class="row"><span class="num">01</span><span class="name">Work</span><span class="desc">BeyondBot · Heera — internships with writeups</span><span class="arr">→</span></div>
+            <div class="row"><span class="num">02</span><span class="name">Projects</span><span class="desc">ForeSites · AgroSense · EKG · earlier work</span><span class="arr">→</span></div>
+            <div class="row"><span class="num">03</span><span class="name">Leadership</span><span class="desc">CoDeC president — Trifecta Challenge 2026</span><span class="arr">→</span></div>
+            <div class="row"><span class="num">04</span><span class="name">Writing</span><span class="desc">notes on retrieval evaluation, agent design</span><span class="arr">→</span></div>
+            <div class="row"><span class="num">05</span><span class="name">Contact</span><span class="desc">mihir.moe@gmail.com · linkedin · github</span><span class="arr">→</span></div>
+          </div>
+          <hr class="hair">
+          <div class="recog">recognitions · <b>sih r2 ′24</b> · <b>circuit heist runner-up ′24</b> · dataquest finalist · hackmitwpu finalist</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Index card</h3>
+      <p>Whole homepage on one screen, no scroll. Hero (00 NOW) → 4 spec cells → 5-row index linking out to inner pages → recognitions one-liner. Feels like the inside cover of an engineering quarterly. <b>Tradeoff:</b> very strong first impression, zero narrative — visitors must click to learn anything.</p>
+    </div>
+  </div>
+
+  <!-- B. SCROLL -->
+  <div class="card" data-choice="scroll-narrative" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock">
+        <div class="frame">
+          <span class="corner tl">REV&nbsp;&nbsp;2026.05</span>
+          <span class="corner tr">DRAWING&nbsp;&nbsp;00 / 06</span>
+          <span class="corner bl">MIHIRMOHITE.IN</span>
+          <span class="corner br">PUNE,&nbsp;IN — SCROLL ↓</span>
+          <div class="nav">
+            <span>MIHIR MOHITE — INDEX</span>
+            <span class="right"><span class="cur">00 NOW</span><span>01 WORK</span><span>02 PROJECTS</span><span>03 LEADERSHIP</span><span>04 WRITING</span><span>05 CONTACT</span></span>
+          </div>
+          <div class="label" style="margin-top:18px"><span class="num">00</span>NOW</div>
+          <h1 style="font-size:34px">Mihir Mohite.</h1>
+          <div class="role">applied ml engineer<span class="caret"></span></div>
+          <div class="body" style="margin-top:10px">Currently building a <b>legal-compliance RAG</b> system at BeyondBot over a 1,210-page corpus of Indian industrial, manufacturing and environmental law. Hybrid retrieval reached <code>0.77</code> RAGAS vs <code>0.51</code> naive baseline.</div>
+
+          <div class="b-section">
+            <div class="head">
+              <div><div class="label"><span class="num">01</span>WORK</div><div class="h2">internships</div></div>
+              <span class="pageno">page 01 / 06</span>
+            </div>
+            <div class="b-entry">
+              <div class="when">2025.10 — now</div>
+              <div class="what">
+                <h3>Machine Learning Intern</h3>
+                <div class="org">BeyondBot Technology Pvt. Ltd. · Pune</div>
+                <p>Designed legal-compliance RAG over 1,210pp Indian-law corpus. Built RAGAS-style harness across 5 retrieval modes on 315 queries; <b>hybrid 0.77 vs 0.51 naive</b>. Built custom OpenCV visual chunker.</p>
+              </div>
+              <div class="read">read →</div>
+            </div>
+            <div class="b-entry">
+              <div class="when">2025.06 — 2025.10</div>
+              <div class="what">
+                <h3>Software Intern</h3>
+                <div class="org">Heera Software Pvt. Ltd. · Pune</div>
+                <p>Address-validation scoring service combining Google Maps, fuzzy matching, reverse-geocoded cosine similarity. Processed <b>~13,500 records</b>.</p>
+              </div>
+              <div class="read">read →</div>
+            </div>
+          </div>
+
+          <div class="b-section">
+            <div class="head">
+              <div><div class="label"><span class="num">02</span>PROJECTS</div><div class="h2">selected work</div></div>
+              <span class="pageno">page 02 / 06</span>
+            </div>
+            <div class="b-entry">
+              <div class="when">pilot · 2026</div>
+              <div class="what">
+                <h3>ForeSites — Construction Site Management</h3>
+                <div class="org">3-person team · pilot with Pune real-estate developer</div>
+                <p>AWS Lambda agent (Gemini) doing streaming NL-to-SQL over a 9-table Postgres schema. WhatsApp ingest service for snag reports (text/voice/image).</p>
+              </div>
+              <div class="read">read →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Scrolling spec sheet</h3>
+      <p>Long single-column scroll. Each numbered section (00 NOW → 05 CONTACT) is a full-bleed block with section header, hairline rule, and entry-list (date · title · org · 1-line · read →). Inner case-study pages still exist for depth. <b>Tradeoff:</b> tells the full story on one URL — recruiter who lands and doesn't click still gets every key fact. Longer page, more to author.</p>
+    </div>
+  </div>
+
+  <!-- C. TWO-COLUMN -->
+  <div class="card" data-choice="two-column" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock">
+        <div class="frame">
+          <span class="corner tl">REV&nbsp;&nbsp;2026.05</span>
+          <span class="corner tr">DRAWING&nbsp;&nbsp;00 / 06</span>
+          <span class="corner bl">MIHIRMOHITE.IN</span>
+          <span class="corner br">PUNE,&nbsp;IN</span>
+          <div class="nav">
+            <span>MIHIR MOHITE — INDEX</span>
+            <span class="right"><span style="color:var(--mid)">⌘K SEARCH</span></span>
+          </div>
+
+          <div class="c-grid">
+            <aside class="c-rail">
+              <p class="who">Mihir Mohite.</p>
+              <p class="role">applied ml engineer<span class="caret"></span></p>
+
+              <div class="idx">
+                <a class="cur">00 NOW <span>—</span></a>
+                <a>01 WORK <span>02</span></a>
+                <a>02 PROJECTS <span>04</span></a>
+                <a>03 LEADERSHIP <span>01</span></a>
+                <a>04 WRITING <span>—</span></a>
+                <a>05 CONTACT <span>—</span></a>
+              </div>
+
+              <hr class="hair">
+
+              <div class="meta">
+                <div><b>Working langs</b><br>Python · C++</div>
+                <div style="margin-top:8px"><b>Now</b><br>ML Intern, BeyondBot</div>
+                <div style="margin-top:8px"><b>Recognitions</b><br>SIH R2 ′24 · Circuit Heist runner-up · Dataquest finalist · HackMITWPU finalist</div>
+              </div>
+
+              <div class="toggle">
+                <span class="pill on">LIGHT</span><span class="pill">DARK</span>
+              </div>
+            </aside>
+
+            <section class="c-content">
+              <div class="now-block">
+                <div class="label"><span class="num">00</span>NOW</div>
+                <h1 style="font-size:38px">building retrieval that doesn't lie.</h1>
+                <div class="body" style="margin-top:8px">At <b>BeyondBot</b> I'm building a legal-compliance RAG system over a 1,210-page corpus of Indian industrial, manufacturing and environmental law. Pipeline: <code>mistral ocr → regex router → lightrag → agno (gemini 3 flash) → fastapi sse</code>. Benchmarked on a 315-query RAGAS harness — hybrid retrieval reached <b>0.77</b> against <b>0.51</b> for the naive baseline.</div>
+              </div>
+
+              <div class="recent">
+                <div class="col">
+                  <div class="lab">latest project</div>
+                  <h4>ForeSites</h4>
+                  <div class="org">construction-tech · pilot stage</div>
+                  <p>Lambda + Gemini doing NL-to-SQL over Postgres. WhatsApp snag-ingest in Node.</p>
+                </div>
+                <div class="col">
+                  <div class="lab">latest writing</div>
+                  <h4>retrieval evaluation, honestly</h4>
+                  <div class="org">draft · 8 min read</div>
+                  <p>What RAGAS misses, where naive beats hybrid, and the 5 modes I had to throw out.</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Two-column journal</h3>
+      <p>Sticky left rail (name + role + index + meta + recognitions + mode toggle) is always visible. Right column scrolls through Now → Recent. Inner pages also use this two-column shell — rail stays put, content swaps. Inspired by Tufte side-margins, reading apps, Notion sidebars. <b>Tradeoff:</b> incredible navigation density, slightly more code, mobile collapses to single column with the rail at the top.</p>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;margin-top:1.5rem;font-size:0.85rem;color:var(--text-secondary)">Click one. Or tell me which is closest, what bothers you, and what to graft from the others — same flow as last time.</p>

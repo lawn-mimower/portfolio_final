@@ -1,0 +1,12 @@
+---
+interface Props {
+  num: string;       // "00"
+  name: string;      // "NOW"
+  draw?: boolean;    // wire fade-in via observer
+}
+const { num, name, draw = false } = Astro.props;
+const cls = draw ? 'section-label draw' : 'section-label';
+---
+<div class={cls} data-observe={draw ? 'fade' : undefined}>
+  <span class="num">{num}</span>{name}
+</div>

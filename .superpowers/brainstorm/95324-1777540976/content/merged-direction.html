@@ -1,0 +1,159 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  #claude-content { padding: 1.5rem 2rem 3rem; }
+  .cards { grid-template-columns: 1fr !important; max-width: 980px; margin: 0 auto; gap: 1.25rem; }
+  .card { overflow: hidden; }
+  .card-image { aspect-ratio: auto !important; min-height: 560px; padding: 0 !important; align-items: stretch !important; justify-content: stretch !important; display: block !important; }
+
+  /* ============ Shared structure ============ */
+  .mock { width: 100%; min-height: 560px; padding: 0; position: relative; overflow: hidden; font-family: 'IBM Plex Sans', sans-serif; }
+  .mock .frame { padding: 30px 44px 30px; height: 100%; min-height: 560px; position: relative;
+    background-image: radial-gradient(circle, var(--dot) 0.7px, transparent 0.7px);
+    background-size: 14px 14px;
+  }
+  .mock .frame::before, .mock .frame::after { content: ''; position: absolute; left: 44px; right: 44px; height: 1px; background: var(--rule); opacity: 0.4; }
+  .mock .frame::before { top: 26px; }
+  .mock .frame::after { bottom: 26px; }
+  .mock .corner { position: absolute; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.2em; }
+  .mock .corner.tl { top: 8px; left: 44px; }
+  .mock .corner.tr { top: 8px; right: 44px; }
+  .mock .corner.bl { bottom: 8px; left: 44px; }
+  .mock .corner.br { bottom: 8px; right: 44px; }
+
+  .mock .nav { display: flex; justify-content: space-between; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); padding-top: 6px; }
+  .mock .nav .right span { margin-left: 14px; }
+  .mock .nav .right span.cur { color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 1px; }
+
+  .mock .label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.22em; color: var(--accent); margin-top: 30px; }
+  .mock .label .num { color: var(--ink); margin-right: 10px; opacity: 0.5; }
+  .mock h1.name { font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 46px; line-height: 1.0; letter-spacing: -1.2px; margin: 8px 0 6px; color: var(--ink); }
+  .mock .role { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--mid); margin-bottom: 0; }
+  .mock .role .caret { display: inline-block; width: 9px; height: 14px; background: var(--accent); margin-left: 4px; transform: translateY(2px); animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .mock hr.hair { border: 0; border-top: 1px solid var(--rule); margin: 22px 0 14px; opacity: 0.35; }
+
+  .mock .specs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+  .mock .specs .cell { border-top: 1px solid var(--rule); padding-top: 8px; opacity: 0.95; }
+  .mock .specs .cell .k { color: var(--mid); text-transform: uppercase; letter-spacing: 0.14em; font-size: 9.5px; }
+  .mock .specs .cell .v { color: var(--ink); margin-top: 4px; font-size: 12.5px; line-height: 1.35; }
+  .mock .specs .cell .v b { color: var(--accent); font-weight: 500; }
+
+  .mock .body { margin-top: 24px; max-width: 64ch; font-size: 14.5px; line-height: 1.6; color: var(--ink); }
+  .mock .body code { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--accent); background: var(--code-bg); padding: 1px 5px; border-radius: 2px; }
+  .mock .body b { font-weight: 500; }
+
+  .mock .pipeline { margin-top: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--mid); letter-spacing: 0.02em; }
+  .mock .pipeline .arrow { color: var(--accent); margin: 0 4px; }
+
+  /* ============ LIGHT ============ */
+  .mock-light {
+    --ink: #18181b;
+    --mid: #5a5a60;
+    --muted: #7a7a82;
+    --rule: #18181b;
+    --accent: #b54a00;          /* warm amber-rust, more honest than blueprint blue */
+    --dot: #c9c5b8;
+    --code-bg: #efe9d9;
+    background: #f6f2e6;
+    color: #18181b;
+  }
+
+  /* ============ DARK ============ */
+  .mock-dark {
+    --ink: #f0ece2;
+    --mid: #9a958a;
+    --muted: #6a655c;
+    --rule: #f0ece2;
+    --accent: #ffb547;          /* amber */
+    --dot: #1d1d1f;
+    --code-bg: #1a1a1d;
+    background: #0c0c0e;
+    color: #f0ece2;
+  }
+</style>
+
+<h2 style="margin-bottom:0.4rem">Merged direction — pick the mode.</h2>
+<p class="subtitle" style="margin-bottom:0.5rem">Single type system: <b>IBM Plex Sans</b> for body / name, <b>IBM Plex Mono</b> for all data and labels. Numbered sections, hairline rules, dot-grid, drawing-corner annotations from C. Terminal cursor + amber accent + monospace metrics from A. No ASCII art (it ages badly), no fake "code window" (that's the cliché we're escaping).</p>
+<p class="subtitle" style="margin-bottom:1.25rem">Click whichever <b>mode</b> feels right. Or pick both — we can ship a respect-system-preference toggle. The structure is identical; only the paint changes.</p>
+
+<div class="cards">
+
+  <!-- LIGHT -->
+  <div class="card" data-choice="light" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock mock-light">
+        <div class="frame">
+          <span class="corner tl">REV&nbsp;&nbsp;2026.04</span>
+          <span class="corner tr">DRAWING&nbsp;&nbsp;00 / 06</span>
+          <span class="corner bl">MIHIRMOHITE.IN</span>
+          <span class="corner br">PUNE,&nbsp;IN</span>
+          <div class="nav">
+            <span>MIHIR MOHITE — INDEX</span>
+            <span class="right"><span class="cur">00 NOW</span><span>01 WORK</span><span>02 PROJECTS</span><span>03 WRITING</span><span>04 CONTACT</span></span>
+          </div>
+          <div class="label"><span class="num">00</span>NOW</div>
+          <h1 class="name">Mihir Mohite.</h1>
+          <div class="role">applied ml engineer · b.tech ai/ml @ mit-wpu · president, codec<span class="caret"></span></div>
+          <hr class="hair">
+          <div class="specs">
+            <div class="cell"><div class="k">Role</div><div class="v">ML Intern · <b>BeyondBot</b></div></div>
+            <div class="cell"><div class="k">Working langs</div><div class="v">Python · C++</div></div>
+            <div class="cell"><div class="k">RAGAS Δ</div><div class="v"><b>+0.26</b> hybrid vs naive</div></div>
+            <div class="cell"><div class="k">Corpus</div><div class="v">1,210 pp · IN law</div></div>
+          </div>
+          <div class="body">
+            Building a <b>legal-compliance RAG</b> system at BeyondBot over a 1,210-page corpus of Indian industrial, manufacturing and environmental law. Benchmarked five retrieval modes on a 315-query <code>RAGAS</code> harness — hybrid retrieval reached <b>0.77</b> against <b>0.51</b> for the naive baseline.
+          </div>
+          <div class="pipeline">mistral ocr <span class="arrow">→</span> regex router <span class="arrow">→</span> lightrag (kg + vector) <span class="arrow">→</span> agno · gemini 3 flash <span class="arrow">→</span> fastapi sse</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Light — warm paper</h3>
+      <p>Cream paper #f6f2e6, deep ink, amber-rust accent #b54a00. Reads like an engineering quarterly or a printed datasheet. Lower contrast than pure white. No "tech startup" vibe.</p>
+    </div>
+  </div>
+
+  <!-- DARK -->
+  <div class="card" data-choice="dark" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="mock mock-dark">
+        <div class="frame">
+          <span class="corner tl">REV&nbsp;&nbsp;2026.04</span>
+          <span class="corner tr">DRAWING&nbsp;&nbsp;00 / 06</span>
+          <span class="corner bl">MIHIRMOHITE.IN</span>
+          <span class="corner br">PUNE,&nbsp;IN</span>
+          <div class="nav">
+            <span>MIHIR MOHITE — INDEX</span>
+            <span class="right"><span class="cur">00 NOW</span><span>01 WORK</span><span>02 PROJECTS</span><span>03 WRITING</span><span>04 CONTACT</span></span>
+          </div>
+          <div class="label"><span class="num">00</span>NOW</div>
+          <h1 class="name">Mihir Mohite.</h1>
+          <div class="role">applied ml engineer · b.tech ai/ml @ mit-wpu · president, codec<span class="caret"></span></div>
+          <hr class="hair">
+          <div class="specs">
+            <div class="cell"><div class="k">Role</div><div class="v">ML Intern · <b>BeyondBot</b></div></div>
+            <div class="cell"><div class="k">Working langs</div><div class="v">Python · C++</div></div>
+            <div class="cell"><div class="k">RAGAS Δ</div><div class="v"><b>+0.26</b> hybrid vs naive</div></div>
+            <div class="cell"><div class="k">Corpus</div><div class="v">1,210 pp · IN law</div></div>
+          </div>
+          <div class="body">
+            Building a <b>legal-compliance RAG</b> system at BeyondBot over a 1,210-page corpus of Indian industrial, manufacturing and environmental law. Benchmarked five retrieval modes on a 315-query <code>RAGAS</code> harness — hybrid retrieval reached <b>0.77</b> against <b>0.51</b> for the naive baseline.
+          </div>
+          <div class="pipeline">mistral ocr <span class="arrow">→</span> regex router <span class="arrow">→</span> lightrag (kg + vector) <span class="arrow">→</span> agno · gemini 3 flash <span class="arrow">→</span> fastapi sse</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Dark — engineering log</h3>
+      <p>Near-black #0c0c0e, warm-cream foreground, amber accent #ffb547. Closer to A's directness, but the structural discipline of C keeps it from feeling like a dev-portfolio cliché.</p>
+    </div>
+  </div>
+
+</div>
+
+<p style="text-align:center;margin-top:1.5rem;font-size:0.85rem;color:var(--text-secondary)">Click your preferred mode (or both — we can do a respect-system-preference toggle, no manual sun/moon button). What I want next is your gut: does this merge feel right, or did A/C have something I dropped that you miss?</p>

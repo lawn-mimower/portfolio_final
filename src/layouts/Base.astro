@@ -1,0 +1,73 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+
+import '../styles/tokens.css';
+import '../styles/reset.css';
+import '../styles/primitives.css';
+import '../styles/motion.css';
+
+import { ClientRouter } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Mihir Mohite — applied ML engineer. RAG systems, agentic pipelines, the occasional rover.',
+  ogImage = '/og-default.png',
+} = Astro.props;
+
+// Guard against Astro.site being unset in some dev states.
+const base = Astro.site ?? new URL('https://mihirmohite.in');
+const canonical = new URL(Astro.url.pathname, base).toString();
+const ogImageUrl = new URL(ogImage, base).toString();
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light dark" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImageUrl} />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Pre-paint mode init: applies stored override or falls back to system pref. -->
+  <script is:inline>
+    (function () {
+      try {
+        var stored = localStorage.getItem('mm-theme');
+        // Default to dark unless the visitor explicitly chose light.
+        document.documentElement.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
+      } catch (_) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
+  <ClientRouter />
+</head>
+<body>
+  <slot />
+  <script>
+    import { start } from '../scripts/observe';
+    start();
+    document.addEventListener('astro:page-load', start);
+  </script>
+</body>
+</html>

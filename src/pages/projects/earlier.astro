@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Frame from '../../components/Frame.astro';
+import Nav from '../../components/Nav.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+
+const expanded: Array<{ year: string; title: string; blurb: string; detail: string }> = [
+  { year: '2024', title: 'scout rover for hazardous environments',
+    blurb: 'matlab + lidar slam, mq5 / dht / ultrasonic',
+    detail: 'A rover designed for hazardous environments. LiDAR-based SLAM in MATLAB for mapping; environmental sensors (MQ5 gas, DHT temperature/humidity, ultrasonic distance) for telemetry.' },
+  { year: '2024', title: 'electric load forecasting (delhi)',
+    blurb: 'mlp · keras',
+    detail: 'Multi-Layer Perceptron forecasting Delhi electricity load against historical demand. Educational project; not deployed.' },
+  { year: '2024', title: 'ldr-based solar tracker',
+    blurb: 'arduino + servos',
+    detail: 'Two-axis solar tracker using LDR pairs and servos to orient a panel toward the sun.' },
+  { year: '2024', title: 'sos tracker (lora 433mhz)',
+    blurb: 'embedded',
+    detail: 'Long-range, low-power distress signaling over LoRa 433MHz for areas with poor cellular connectivity.' },
+  { year: '2024', title: 'lidar fan-speed detector',
+    blurb: 'matlab fft',
+    detail: 'Non-contact rotational-speed measurement of fans using LiDAR distance traces and FFT in MATLAB.' },
+];
+---
+<Base title="Earlier work — Mihir Mohite">
+  <Frame drawing="04 / 04" context="EARLIER · 2024">
+    <Nav current="PROJECTS" />
+    <a href="/" class="back-link">← back to index</a>
+    <SectionLabel num="02.5" name="EARLIER" />
+    <h1 class="display">Earlier work.</h1>
+    <p class="role">2024 · pre-resume — included for range, not depth.</p>
+    <ul class="earlier" style="margin-top: 1.5rem">
+      {expanded.map((e) => (
+        <li>
+          <span class="y">{e.year}</span>
+          <span>
+            <b>{e.title}</b>
+            <div class="blurb" style="margin-top: 0.25rem">{e.blurb}</div>
+            <p class="body-text" style="font-size: 0.85rem; margin-top: 0.4rem">{e.detail}</p>
+          </span>
+        </li>
+      ))}
+    </ul>
+  </Frame>
+</Base>

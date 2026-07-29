@@ -1,0 +1,42 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: "AgroSense — Precision Agriculture (PBL4, MIT-WPU)"
+description: "UAV photogrammetry + ESP32 ground module + Firebase dashboard with multilingual AI assistant."
+num: "02"
+section: "PROJECTS"
+drawing: "02 / 04"
+context: "AGROSENSE — PBL4"
+pageTitle: "AgroSense"
+role: "team · MIT-WPU PBL4 · ay 2025–26"
+tldr:
+  - { k: "Aerial",  v: "UAV photogrammetry · orthomosaic · ExG / VARI" }
+  - { k: "Ground",  v: "ESP32 · Modbus soil sensor · GPS waypoints" }
+  - { k: "Inference", v: "on-device ML for NPK estimation" }
+  - { k: "Dashboard", v: "Firebase · Vercel · multilingual AI assistant" }
+---
+
+## Pipeline
+
+### Aerial layer (RGB → orthomosaic → vegetation indices → zoning)
+
+The UAV captures RGB imagery over a target plot. The pipeline:
+
+1. **RGB capture + photogrammetry** — stitch overlapping captures into an orthomosaic.
+2. **Vegetation indices** — compute Excess Green (`ExG`) and Visible Atmospherically Resistant Index (`VARI`) from the RGB orthomosaic. RGB-only because dedicated multispectral sensors weren't available.
+3. **Zoning** — K-means cluster the index map into management zones (low / mid / high vigour).
+
+### Ground layer (ESP32 + Modbus + GPS waypoints)
+
+An ESP32 ground module carries a Modbus soil sensor and a GPS receiver. The rover follows a waypoint plan over the zones identified from the air. At each waypoint it samples the soil and runs an on-device ML model that estimates NPK (nitrogen / phosphorus / potassium) from the multivariate sensor reading.
+
+### Dashboard
+
+Firebase + Vercel dashboard surfaces the orthomosaic + zoning overlay alongside the ground-truth NPK readings. A multilingual AI assistant answers farmer queries in their preferred language and grounds answers in the current plot data.
+
+## Review paper
+
+Alongside the build, I authored a review paper on affordable, industry-standard **precision-agriculture adoption for smallholder farms in Maharashtra** — surveying what's realistically deployable at that scale and cost.
+
+## Team
+
+Heramb · Pranav · Paresh · me — MIT-WPU Department of Electronics & Communication Engineering, AY 2025–26.

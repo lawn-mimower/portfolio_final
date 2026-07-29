@@ -1,0 +1,32 @@
+---
+import Base from './Base.astro';
+import CaseStudyShell from '../components/case-study/CaseStudyShell.astro';
+
+interface Frontmatter {
+  title: string;
+  description?: string;
+  num: string;
+  section: string;
+  drawing: string;
+  context: string;
+  pageTitle: string;
+  role?: string;
+  tldr: Array<{ k: string; v: string }>;
+}
+// Astro passes MDX/MD frontmatter under `Astro.props.frontmatter`, not as top-level props.
+const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
+const { title, description, num, section, drawing, context, pageTitle, role, tldr } = frontmatter;
+---
+<Base title={title} description={description}>
+  <CaseStudyShell
+    num={num}
+    section={section}
+    drawing={drawing}
+    context={context}
+    title={pageTitle}
+    role={role}
+    tldr={tldr}
+  >
+    <slot />
+  </CaseStudyShell>
+</Base>

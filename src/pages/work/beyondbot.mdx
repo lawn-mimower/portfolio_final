@@ -1,0 +1,48 @@
+---
+layout: ../../layouts/CaseStudy.astro
+title: "BeyondBot — Legal-compliance RAG"
+description: "RAG over a 1,210-page Indian-law corpus. Hybrid retrieval reached 0.77 RAGAS vs 0.51 naive."
+num: "01"
+section: "WORK"
+drawing: "01 / 02"
+context: "BEYONDBOT — IN-PROGRESS"
+pageTitle: "BeyondBot"
+role: "machine learning intern · oct 2025 — present · pune"
+tldr:
+  - { k: "Corpus",          v: "1,210 pp · IN industrial / mfg / env law" }
+  - { k: "Pipeline stages", v: "5 (ocr → router → retrieval → agent → api)" }
+  - { k: "Eval queries",    v: "315" }
+  - { k: "RAGAS Δ",         v: "<b>+0.26</b> hybrid vs naive" }
+---
+
+## Problem
+
+The platform team needed an on-site question-answering layer over a 1,210-page corpus of Indian industrial, manufacturing and environmental law. Three constraints made naive RAG insufficient: (1) **statute structure**: legal text mixes definitions, sections, tables, and amendments, which a flat semantic index conflates; (2) **citation precision**: legal answers must cite the exact section, not paraphrase; (3) **change tracking**: amendments live in separate documents that supersede older sections.
+
+## Pipeline
+
+`mistral ocr` → custom regex router (definitions / sections / tables / amendments) → **LightRAG** (KG + vector) with SQLite tabular lookups and a JSON amendment index → **Agno** agent on Gemini 3 Flash with 4 tools → **FastAPI** with SSE streaming → chat UI with PDF.js viewer and citation badges.
+
+The regex router is the load-bearing piece. It runs before retrieval and tags each chunk with a structural type, which lets the retrieval layer route — definitions hit a small, exact-match path; tables hit SQLite; amendments hit the JSON index; everything else goes to LightRAG.
+
+## Evaluation
+
+Built a RAGAS-style evaluation harness benchmarking five LightRAG retrieval modes across **315 queries** on a 10k-excerpt FinDER subset. Metrics: faithfulness, answer relevancy, context precision, context recall, plus retrieval latency, token count, and deployment cost.
+
+| Mode    | RAGAS  |  Δ vs naive |
+|---------|-------:|------------:|
+| naive   | 0.51   |  —          |
+| local   | 0.62   | +0.11       |
+| global  | 0.66   | +0.15       |
+| graph   | 0.71   | +0.20       |
+| **hybrid** | **0.77** | **+0.26** |
+
+Hybrid retrieval reached **0.77 RAGAS** against **0.51** for the naive baseline — a roughly 49% lift on the same harness.
+
+## OpenCV visual chunker
+
+Wrote a custom OpenCV visual chunker that rasterizes PDF pages and uses blob detection to extract bounding boxes for text blobs, recovering page hierarchy for downstream chunking. Pages with a clear title/body/table layout get clean structural tags; complex multi-column statute pages sometimes need a fallback to plain layout heuristics.
+
+## Handover
+
+The PoC was handed to platform engineers for product integration. Open work includes promoting the regex router to a learned classifier and adding an evaluator-in-the-loop loop for the amendment index.

@@ -1,0 +1,8 @@
+---
+interface Props {
+  draw?: boolean;
+}
+const { draw = false } = Astro.props;
+const cls = draw ? 'hairline draw' : 'hairline';
+---
+<hr class={cls} data-observe={draw ? 'hairline' : undefined} />

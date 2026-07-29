@@ -1,0 +1,22 @@
+---
+const items = [
+  { name: 'Work',     href: '/#work' },
+  { name: 'Projects', href: '/#projects' },
+  { name: 'Skills',   href: '/#skills' },
+  { name: 'Contact',  href: '/#contact' },
+];
+
+interface Props { current?: string }
+const { current } = Astro.props;
+---
+<nav class="nav">
+  <a class="brand" href="/">Mihir Mohite</a>
+  <div class="right">
+    {items.map((item) => (
+      current === item.name.toUpperCase()
+        ? <span class="cur">{item.name}</span>
+        : <a href={item.href}>{item.name}</a>
+    ))}
+    <a class="btn" href="/Mihir_Mohite_Resume.pdf" download>Résumé ↓</a>
+  </div>
+</nav>
