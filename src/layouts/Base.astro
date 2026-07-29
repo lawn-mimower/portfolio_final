@@ -25,7 +25,10 @@ const {
   ogImage = '/og-default.png',
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+// Guard against Astro.site being unset in some dev states.
+const base = Astro.site ?? new URL('https://mihirmohite.in');
+const canonical = new URL(Astro.url.pathname, base).toString();
+const ogImageUrl = new URL(ogImage, base).toString();
 ---
 <!doctype html>
 <html lang="en">
@@ -41,7 +44,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonical} />
-  <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />
+  <meta property="og:image" content={ogImageUrl} />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Pre-paint mode init: applies stored override or falls back to system pref. -->
@@ -49,10 +52,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).toString();
     (function () {
       try {
         var stored = localStorage.getItem('mm-theme');
-        if (stored === 'light' || stored === 'dark') {
-          document.documentElement.setAttribute('data-theme', stored);
-        }
-      } catch (_) {}
+        // Default to dark unless the visitor explicitly chose light.
+        document.documentElement.setAttribute('data-theme', stored === 'light' ? 'light' : 'dark');
+      } catch (_) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
     })();
   </script>
 
