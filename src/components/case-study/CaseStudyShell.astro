@@ -20,14 +20,8 @@ const {
   num, section, drawing, context, title, role,
   tldr, backHref = '/', backLabel = '← back to index',
 } = Astro.props;
-
-// Match the case study's accent to its section hue on the home page.
-const sectionAccent =
-  section === 'PROJECTS' ? 'var(--accent-2)' :
-  section === 'LEADERSHIP' ? 'var(--accent-3)' :
-  undefined;
 ---
-<Frame drawing={drawing} context={context} accent={sectionAccent}>
+<Frame drawing={drawing} context={context}>
   <Nav current={section} />
   <a href={backHref} class="back-link">{backLabel}</a>
   <SectionLabel num={num} name={section} />

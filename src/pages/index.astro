@@ -5,8 +5,6 @@ import Nav from '../components/Nav.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import SpecGrid from '../components/SpecGrid.astro';
 import SpecCell from '../components/SpecCell.astro';
-import Hairline from '../components/Hairline.astro';
-import TerminalCursor from '../components/TerminalCursor.astro';
 import Pipeline from '../components/Pipeline.astro';
 import EntryRow from '../components/EntryRow.astro';
 import ModeToggle from '../components/ModeToggle.astro';
@@ -19,42 +17,46 @@ import {
 } from '../content/site';
 ---
 <Base title={`${profile.name} — applied ml engineer`}>
-  <Frame drawing="00 / 06">
+  <Frame>
     <Nav current="NOW" />
 
-    <section id="now">
-      <SectionLabel num="00" name="NOW" draw />
-      <div class="hero">
-        <div class="hero-copy">
-          <h1 class="display">{profile.name}.</h1>
-          <p class="role">{profile.role}<TerminalCursor /></p>
-
-          <SpecGrid cols={2}>
-            {nowSpecs.map((s) => (
-              <SpecCell k={s.k}><span set:html={s.v} /></SpecCell>
-            ))}
-          </SpecGrid>
-
-          <p class="body-text" style="margin-top: 1.25rem" set:html={nowParagraph} />
-
-          <Pipeline steps={nowPipeline} />
+    <!-- Hero -->
+    <section id="now" class="hero">
+      <div class="hero-copy" data-observe="fade">
+        <div class="section-label"><span class="num">01 /</span> Applied ML Engineer</div>
+        <h1 class="display">{profile.name}</h1>
+        <p class="role" set:html={
+          `I build <b>retrieval and agentic ML systems</b> — RAG pipelines, NL-to-SQL agents, and the occasional rover. Currently ML intern at BeyondBot and president of CoDeC @ MIT-WPU.`
+        } />
+        <div class="btn-row">
+          <a class="btn primary" href="#contact">Get in touch</a>
+          <a class="btn" href="/Mihir_Mohite_Resume.pdf" download>Download résumé ↓</a>
         </div>
-
-        <figure class="figure">
-          <img src="/media/portrait.jpeg" width="640" height="640"
-               alt="Mihir Mohite presenting at CoDeC, MIT-WPU" loading="eager" />
-          <figcaption>presenting at codec · mit-wpu · 2025</figcaption>
-        </figure>
       </div>
+      <figure class="figure" data-observe="fade">
+        <img src="/media/hero.jpg" width="960" height="1280"
+             alt="Mihir Mohite" loading="eager" />
+      </figure>
+    </section>
 
-      <Hairline draw />
+    <!-- What I'm working on -->
+    <section id="focus" data-observe="fade">
+      <SpecGrid>
+        {nowSpecs.map((s) => (
+          <SpecCell k={s.k}><span set:html={s.v} /></SpecCell>
+        ))}
+      </SpecGrid>
+      <p class="body-text" set:html={nowParagraph} />
+      <Pipeline steps={nowPipeline} />
       <p class="recog" set:html={recognitions} />
     </section>
 
-    <Hairline draw />
+    <!-- Experience -->
     <section id="work">
-      <SectionLabel num="01" name="WORK" draw />
-      <h2 class="display" style="font-size: 1.6rem; margin-bottom: 0.5rem">internships</h2>
+      <div data-observe="fade">
+        <div class="section-label"><span class="num">02 /</span> Experience</div>
+        <h2 class="display h2">Where I've worked</h2>
+      </div>
       {work.map((w) => (
         <EntryRow when={w.when} title={w.title} org={w.org} href={w.href}>
           <span set:html={w.lede} />
@@ -62,18 +64,27 @@ import {
       ))}
     </section>
 
-    <Hairline draw />
-    <section id="projects" style="--accent: var(--accent-2)">
-      <SectionLabel num="02" name="PROJECTS" draw />
-      <h2 class="display" style="font-size: 1.6rem; margin-bottom: 0.5rem">selected work</h2>
-      {projects.map((p) => (
-        <EntryRow when={p.when} title={p.title} org={p.org} href={p.href}>
-          <span set:html={p.lede} />
-        </EntryRow>
-      ))}
+    <!-- Projects -->
+    <section id="projects">
+      <div data-observe="fade">
+        <div class="section-label"><span class="num">03 /</span> Projects</div>
+        <h2 class="display h2">Selected work</h2>
+      </div>
+      <div class="cards" data-observe="fade">
+        {projects.map((p) => (
+          <a class="card" href={p.href}>
+            {p.image && <img class="thumb" src={p.image} alt={p.title} loading="lazy" />}
+            <div class="when">{p.when}</div>
+            <h3>{p.title}</h3>
+            <div class="org">{p.org}</div>
+            <p set:html={p.lede} />
+            <span class="read">Read case study <span class="arrow">→</span></span>
+          </a>
+        ))}
+      </div>
 
-      <SectionLabel num="02.5" name="EARLIER" draw />
-      <ul class="earlier">
+      <div class="section-label" style="margin-top: var(--sp-8)"><span class="num">03.5 /</span> Earlier</div>
+      <ul class="earlier" data-observe="fade">
         {earlier.map((e) => (
           <li>
             <span class="y">{e.year}</span>
@@ -83,58 +94,80 @@ import {
       </ul>
     </section>
 
-    <Hairline draw />
-    <section id="leadership" style="--accent: var(--accent-3)">
-      <SectionLabel num="03" name="LEADERSHIP" draw />
-      <h2 class="display" style="font-size: 1.6rem; margin-bottom: 0.5rem">codec</h2>
+    <!-- Leadership -->
+    <section id="leadership">
+      <div data-observe="fade">
+        <div class="section-label"><span class="num">04 /</span> Leadership</div>
+        <h2 class="display h2">CoDeC, MIT-WPU</h2>
+      </div>
       {leadership.map((l) => (
         <EntryRow when={l.when} title={l.title} org={l.org} href={l.href}>
           <span set:html={l.lede} />
         </EntryRow>
       ))}
+      <figure class="figure" style="max-width: 480px; margin-top: var(--sp-6)" data-observe="fade">
+        <img src="/media/portrait.jpeg" width="640" height="640"
+             alt="Mihir Mohite presenting at CoDeC, MIT-WPU" loading="lazy" />
+        <figcaption>presenting at codec · mit-wpu · 2025</figcaption>
+      </figure>
     </section>
 
-    <Hairline draw />
-    <section id="education" style="--accent: var(--accent-2)">
-      <SectionLabel num="04" name="EDUCATION" draw />
+    <!-- Education -->
+    <section id="education">
+      <div data-observe="fade">
+        <div class="section-label"><span class="num">05 /</span> Education</div>
+      </div>
       <EntryRow when={education.when} title={education.title} org={education.org}>
         <span set:html={education.lede} />
       </EntryRow>
     </section>
 
-    <Hairline draw />
-    <section id="skills" style="--accent: var(--accent-3)">
-      <SectionLabel num="05" name="SKILLS" draw />
-      {skills.map((g) => (
-        <div class="skills-group">
-          <div class="k">{g.k}</div>
-          <div class="v">{g.v.map((s) => <span>{s}</span>)}</div>
-        </div>
-      ))}
+    <!-- Skills -->
+    <section id="skills">
+      <div data-observe="fade">
+        <div class="section-label"><span class="num">06 /</span> Skills</div>
+        <h2 class="display h2">Tools I work with</h2>
+      </div>
+      <div class="skills-grid" data-observe="fade">
+        {skills.map((g) => (
+          <div class="skills-group">
+            <div class="k">{g.k}</div>
+            <div class="v">{g.v.map((s) => <span>{s}</span>)}</div>
+          </div>
+        ))}
+      </div>
     </section>
 
-    <Hairline draw />
+    <!-- Contact -->
     <section id="contact">
-      <SectionLabel num="06" name="CONTACT" draw />
-      <p class="body-text">Open to internships, research collaborations, and conversations about retrieval systems. Email is fastest.</p>
+      <div data-observe="fade">
+        <div class="section-label"><span class="num">07 /</span> Contact</div>
+        <h2 class="display h2">Let's talk</h2>
+        <p class="body-text">Open to internships, research collaborations, and conversations about retrieval systems. Email is fastest.</p>
 
-      <ul class="contact-list">
-        <li><a href={`mailto:${profile.email}`}><EnvelopeIcon /> {profile.email}</a></li>
-        <li><a href={profile.github} target="_blank" rel="noopener"><GithubIcon /> github.com/lawn-mimower</a></li>
-        <li><a href={profile.linkedin} target="_blank" rel="noopener"><LinkedinIcon /> linkedin.com/in/mihir-mohite</a></li>
-      </ul>
+        <ul class="contact-list">
+          <li><a href={`mailto:${profile.email}`}><EnvelopeIcon size={16} /> {profile.email}</a></li>
+          <li><a href={profile.github} target="_blank" rel="noopener"><GithubIcon size={16} /> github.com/lawn-mimower</a></li>
+          <li><a href={profile.linkedin} target="_blank" rel="noopener"><LinkedinIcon size={16} /> linkedin.com/in/mihir-mohite</a></li>
+        </ul>
 
-      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="form">
-        <input type="hidden" name="form-name" value="contact" />
-        <p class="hp"><label>Don’t fill this out: <input name="bot-field" /></label></p>
-        <div><label for="name">name</label><input id="name" name="name" type="text" required /></div>
-        <div><label for="email">email</label><input id="email" name="email" type="email" required /></div>
-        <div><label for="subject">subject</label><input id="subject" name="subject" type="text" required /></div>
-        <div><label for="message">message</label><textarea id="message" name="message" rows="5" required /></div>
-        <button type="submit">Send →</button>
-      </form>
-
-      <ModeToggle />
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" data-astro-reload class="form">
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hp"><label>Don't fill this out: <input name="bot-field" /></label></p>
+          <div class="row2">
+            <div><label for="name">Name</label><input id="name" name="name" type="text" required /></div>
+            <div><label for="email">Email</label><input id="email" name="email" type="email" required /></div>
+          </div>
+          <div><label for="subject">Subject</label><input id="subject" name="subject" type="text" required /></div>
+          <div><label for="message">Message</label><textarea id="message" name="message" rows="5" required /></div>
+          <button type="submit" class="btn primary">Send message →</button>
+        </form>
+      </div>
     </section>
+
+    <footer class="site-footer">
+      <span>© 2026 Mihir Mohite · Pune, IN</span>
+      <ModeToggle />
+    </footer>
   </Frame>
 </Base>

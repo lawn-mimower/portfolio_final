@@ -36,10 +36,10 @@ export const work = [
     href: '/work/beyondbot',
   },
   {
-    when: '2025.06 — 2025.10',
+    when: '2025.07 — 2025.10',
     title: 'Software Intern',
     org: 'Heera Software Pvt. Ltd. · Pune',
-    lede: 'Address-validation scoring service combining the Google Maps API, fuzzy matching, and reverse-geocoded cosine similarity. Processed <b>~13,500 records</b>.',
+    lede: 'Address-confidence scoring service on the Google Maps API with fuzzy matching and reverse-geocoded cosine similarity. Scored <b>~13,500 records</b> and sharpened address confidence for logistics clients including <b>Red Bull</b>.',
     href: '/work/heera',
   },
 ];
@@ -51,6 +51,7 @@ export const projects = [
     org: '3-person team · pilot with a Pune real-estate developer',
     lede: 'AWS Lambda agent (Gemini) doing streaming NL-to-SQL over a 9-table Postgres schema, with per-session memory. WhatsApp ingest service (Node + S3, Supabase-backed) for snag reports via text, voice and image.',
     href: '/projects/foresites',
+    image: '/media/foresites-arch.png',
   },
   {
     when: '2025',
@@ -86,7 +87,7 @@ export const leadership = [
     when: '2025.10 — now',
     title: 'President',
     org: 'CoDeC · MIT-WPU',
-    lede: 'Organized end-to-end execution of <b>Trifecta Challenge 2026</b> — three-day flagship symposium across Full-Stack, ML, and Competitive Programming tracks. <b>87 registered teams</b> from MIT-WPU and external engineering colleges, partner network including GeeksforGeeks, HackerRank and AlgoZenith, ₹1,50,000 prize pool.',
+    lede: 'Ran <b>Trifecta Challenge 2026</b> — a three-day flagship symposium drawing <b>350+ participants (87 teams)</b> from MIT-WPU and external engineering colleges across Full-Stack, ML, and Competitive Programming tracks. Led a core team of <b>15–20</b>; secured GeeksforGeeks, HackerRank and AlgoZenith through direct outreach.',
     href: '/leadership/trifecta-2026',
   },
   {
@@ -101,8 +102,8 @@ export const leadership = [
 export const education = {
   when: '2023 — 2027 (exp.)',
   title: 'MIT World Peace University, Pune',
-  org: 'B.Tech ECE w/ Specialization in AI & ML',
-  lede: 'CGPA <b>8.56 / 10.00</b>',
+  org: 'B.Tech Electronics & Communication Engineering · Specialization in AI & ML',
+  lede: 'CGPA <b>8.62 / 10.00</b>',
 };
 
 export const skills: Array<{ k: string; v: string[] }> = [
@@ -112,7 +113,7 @@ export const skills: Array<{ k: string; v: string[] }> = [
   { k: 'Vector DBs',        v: ['Pinecone', 'Milvus'] },
   { k: 'LLM Platforms',     v: ['Vertex AI', 'Gemini API', 'Agno'] },
   { k: 'ML / Vision',       v: ['PyTorch', 'TensorFlow', 'Keras', 'CNN', 'Transformers', 'OpenCV', 'OCR', 'IBM Docling', 'Mistral OCR'] },
-  { k: 'Backend & Cloud',   v: ['AWS (Lambda · S3 · EC2)', 'GCP (Vertex AI)', 'Node.js / Express', 'FastAPI', 'REST', 'SSE', 'serverless'] },
+  { k: 'Web & Cloud',       v: ['React.js', 'Node.js / Express', 'FastAPI', 'REST', 'SSE', 'AWS (Lambda · S3 · EC2)', 'GCP (Vertex AI)', 'serverless'] },
   { k: 'Databases',         v: ['PostgreSQL (Supabase)', 'MySQL', 'SQLite', 'Neo4j'] },
   { k: 'Tools & Hardware',  v: ['Git', 'MATLAB', 'WhatsApp Business API', 'Meta API', 'Arduino', 'ESP32', 'Raspberry Pi', 'LiDAR'] },
 ];

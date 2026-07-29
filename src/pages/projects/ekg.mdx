@@ -1,24 +1,26 @@
 ---
 layout: ../../layouts/CaseStudy.astro
-title: "EKG — query-driven Neo4j mini-graphs"
-description: "Demo ingesting SQL / JSON / TXT into query-driven Neo4j mini-graphs with a Gemini NL-query interface."
+title: "EKG — mini-graph knowledge PoC"
+description: "A Neo4j mini-graph PoC ingesting SQL / JSON / TXT behind a Gemini natural-language query interface."
 num: "02"
 section: "PROJECTS"
 drawing: "03 / 04"
-context: "EKG — DEMO"
+context: "EKG — PoC"
 pageTitle: "EKG"
-role: "solo · 2025"
+role: "solo project · 2025"
 tldr:
-  - { k: "Status",  v: "demo · not a product" }
+  - { k: "Status",  v: "proof of concept" }
   - { k: "Input",   v: "SQL · JSON · TXT" }
   - { k: "Store",   v: "Neo4j · mini-graphs per query" }
-  - { k: "UI",      v: "Gemini NL-query interface" }
+  - { k: "Query",   v: "Gemini natural-language interface" }
 ---
 
-## What it is
+## What it does
 
-A demo that ingests three input shapes — relational rows, JSON documents, and free text — and emits per-query Neo4j mini-graphs with entities and edges extracted by Gemini. A natural-language query interface sits on top.
+A proof of concept that ingests three data shapes — relational rows (SQL), JSON documents, and free text — and builds per-query **Neo4j mini-graphs** with entities and relationships extracted by Gemini. A natural-language query interface sits on top, so you can ask a question across otherwise-disconnected sources and get interconnected context back in plain language.
 
-## What it is not
+The idea: let a team query several **disconnected databases** as if they were one graph, without first standing up a full enterprise knowledge-graph pipeline.
 
-A production knowledge-graph system. The previous portfolio listed this as "Enterprise Knowledge Graph"; that framing was overstated and has been corrected.
+## Stack
+
+Neo4j · Gemini API · React · Node.js · MongoDB.

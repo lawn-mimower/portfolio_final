@@ -23,7 +23,7 @@ import { profile } from '../content/site';
       <li><a href={profile.linkedin} target="_blank" rel="noopener"><LinkedinIcon /> linkedin.com/in/mihir-mohite</a></li>
     </ul>
 
-    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" class="form">
+    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thank-you" data-astro-reload class="form">
       <input type="hidden" name="form-name" value="contact" />
       <p class="hp"><label>Don’t fill this out: <input name="bot-field" /></label></p>
       <div><label for="name">name</label><input id="name" name="name" type="text" required /></div>

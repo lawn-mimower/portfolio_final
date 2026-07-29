@@ -7,12 +7,12 @@ section: "WORK"
 drawing: "02 / 02"
 context: "HEERA — SHIPPED"
 pageTitle: "Heera"
-role: "software intern · jun 2025 — oct 2025 · pune"
+role: "software intern · jul 2025 — oct 2025 · pune"
 tldr:
-  - { k: "Records processed", v: "<b>~13,500</b>" }
-  - { k: "Components",        v: "Google Maps · fuzzy · reverse-geo cosine" }
-  - { k: "Output",             v: "score + components per record" }
-  - { k: "Status",             v: "shipped to production data pipeline" }
+  - { k: "Records scored", v: "<b>~13,500</b>" }
+  - { k: "Components",     v: "Google Maps · fuzzy · reverse-geo cosine" }
+  - { k: "Clients",        v: "logistics incl. <b>Red Bull</b>" }
+  - { k: "Status",         v: "shipped to production data pipeline" }
 ---
 
 ## Problem
@@ -27,8 +27,8 @@ Three signals, combined into a weighted score:
 2. **Fuzzy string match** — token sort + ratio over normalized strings to catch transliteration / spacing variance.
 3. **Reverse-geocoded cosine similarity** — geocode the address, reverse-geocode the resulting lat/lng, compare embeddings of the two textual addresses.
 
-The combined score and per-component breakdown were attached to each record. Approximately **13,500** records were processed during the engagement.
+The combined score and per-component breakdown were attached to each record. Approximately **13,500** records were scored during the engagement.
 
-## Notes
+## Impact
 
-This was a scoring service, not a multi-class classifier. The previous portfolio framing of "ML-based multi-class classification" was wrong and is corrected here.
+The service gave downstream teams a rapid, repeatable way to trust an address before acting on it — improving address confidence for logistics clients including **Red Bull**. It's a scoring service, not a classifier: it emits a confidence score and its component contributions, and leaves thresholding to the consumer.
